@@ -24,7 +24,3 @@ class rasterMap:
                 z = self.data[i, j]
                 self.boxes[-1].append(box(pos=vec(x, y, z), length=self.dx, width=self.dx))
                 #print(x,y,z)
-
-
-a = rasterMap(20,10, center=True)
-a.draw_boxes()
