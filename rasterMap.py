@@ -1,9 +1,10 @@
 from vpython import *
 from numpy import *
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 class rasterMap:
-    def __init__(self, nx, ny, dx=1.0, center=True):
+    def __init__(self, nx=10, ny=10, dx=1.0, center=True):
         self.nx = nx
         self.ny = ny
         self.dx = dx
@@ -53,3 +54,20 @@ class rasterMap:
             plt.show()
         else:
             plt.draw(), plt.pause(1e-3)
+
+#### IMAGES (start)
+    def import_image(self, fname):
+        try:
+            self.img = mpimg.imread(fname)
+        except:
+            print("Failed to import:", fname)
+            die
+
+    def image_show(self):
+        self.imgplot = plt.imshow(self.img)
+        plt.show()
+
+    def image_extract_color(self, color=1):
+        print(self.img[:,:,1].shape)
+
+#### IMAGES (end)
