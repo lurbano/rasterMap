@@ -47,6 +47,9 @@ class rasterMap:
         plt.draw(), plt.pause(1e-3)
         #plt.show()
 
-    def update_heatmap(self):
+    def update_heatmap(self, final=False):
         self.heatmap.set_data(self.h)
-        draw(), plt.pause(1e-3)
+        if final:
+            plt.show()
+        else:
+            plt.draw(), plt.pause(1e-3)
