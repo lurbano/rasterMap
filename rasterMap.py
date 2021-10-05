@@ -84,9 +84,13 @@ class rasterMap:
 
     def image_setConstantH(self, color=[0,0,0,0], h = 9):
         t = logical_and(self.r == color[0], self.g == color[1])
+        print("t1", t)
         t = logical_and(t, self.b == color[2])
+        print("t2", t)
         t = logical_and(t, self.a == color[3])
+        print("t3", t)
         self.const_h = self.const_h + t*h
+        print("const_h", self.const_h)
         # a = self.img
         # self.const_h = where(array_equal(a, color), a/a+h, a*0)
         # for i in range(self.nx):
