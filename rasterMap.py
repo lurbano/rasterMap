@@ -58,6 +58,9 @@ class rasterMap:
         else:
             plt.draw(), plt.pause(1e-3)
 
+    def set_constant_h_cells(self):
+        self.h = where(self.const_h, self.const_h, self.h)
+
 #### IMAGES (start)
     def import_image(self, fname):
         # image should be rgba
@@ -84,13 +87,13 @@ class rasterMap:
 
     def image_setConstantH(self, color=[0,0,0,0], h = 9):
         t = logical_and(self.r == color[0], self.g == color[1])
-        print("t1", t)
+        #print("t1", t)
         t = logical_and(t, self.b == color[2])
-        print("t2", t)
+        #print("t2", t)
         t = logical_and(t, self.a == color[3])
-        print("t3", t)
+        #print("t3", t)
         self.const_h = self.const_h + t*h
-        print("const_h", self.const_h)
+        #print("const_h", self.const_h)
         # a = self.img
         # self.const_h = where(array_equal(a, color), a/a+h, a*0)
         # for i in range(self.nx):
@@ -110,6 +113,8 @@ class rasterMap:
 
     def set_h_from_greyscale(self, h_scale=10):
         self.h = self.greyscale * h_scale
+        self.set_constant_h_cells()
+
 
 
 #### IMAGES (end)
