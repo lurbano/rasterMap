@@ -19,11 +19,15 @@ a.image_setConstantH(color=[0,1,0,1], h=5)
 print("timer", timer()-start)
 a.set_h_from_greyscale()
 #print(a.const_h[int(a.nx/2),:])
-print(a.h)
+print("h", a.h)
+print("const_h:", a.const_h)
 a.draw_boxes()
 
 
 for i in range(100):
-    a.diffuse(K=100)
+    a.diffuse(K=0.01)
+    a.redraw_boxes()
     time.sleep(0.1)
     print(i)
+
+print("h", a.h)

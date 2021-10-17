@@ -20,18 +20,18 @@ class rasterMap:
             self.offset = vector(0,0,0)
 
 
-    def draw_boxes(self):
+    def draw_boxes(self, const_h_color = vec(1,1,1)):
         self.boxes = []
         for i in range(self.nx):
             self.boxes.append([])
-            x = i * self.dx + self.offset.x
+            y = -i * self.dx - self.offset.x
             #print(i, self.dx, self.offset.x)
             for j in range(self.ny):
-                y = j * self.dx + self.offset.y
+                x = j * self.dx + self.offset.y
                 z = self.h[i, j]
                 self.boxes[-1].append(box(pos=vec(x, y, z), length=self.dx, width=self.dx))
-                #print(z)
-                #print(x,y,z)
+                if self.const_h[i, j] != 0:
+                    self.boxes[-1][-1].color = const_h_color
 
     def redraw_boxes(self):
         for i in range(self.nx):
@@ -78,8 +78,17 @@ class rasterMap:
             print("Failed to import:", fname)
             die
 
-    def image_show(self):
-        self.imgplot = plt.imshow(self.img)
+    def image_show(self, img=None, greyscale=False):
+        try:
+            if img == None:
+                img = self.img
+        except:
+            print("trying")
+
+        if not greyscale:
+            self.imgplot = plt.imshow(img)
+        else:
+            self.imgplot = plt.imshow(self.greyscale, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
         plt.show()
 
     def image_extract_color(self, color=1):
@@ -105,16 +114,22 @@ class rasterMap:
         #             self.const_h[i,j] = h
 
 
-    def image_greyscale(self):
+    def image_greyscale(self, show=False):
         self.greyscale = dot(self.img[...,:3], [0.2989, 0.5870, 0.1140])
         print(self.greyscale)
-        plt.imshow(self.greyscale, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
-        plt.show()
+        if show:
+            plt.imshow(self.greyscale, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
+            plt.show()
 
     def set_h_from_greyscale(self, h_scale=10):
         self.h = self.greyscale * h_scale
         self.set_constant_h_cells()
 
+    def image_save(self, fname, data, greyscale=False):
+        if greyscale:
+            plt.imsave(fname, data, cmap=plt.get_cmap('gray'), vmin=0, vmax=10)
+        else:
+            plt.imsave(fname, data)
 
 
 #### IMAGES (end)
